@@ -10,8 +10,8 @@ Prerequisites
 
 Before starting, make sure you have the following tools installed in your development environment:
 
--   <https://www.oracle.com/java/technologies/javase-jdk22-downloads.html>
--   <https://git-scm.com/>
+-   [Java Development Kit (JDK) 22+](https://www.oracle.com/br/java/technologies/downloads/#java22)
+-   [Git](https://git-scm.com/)
 
 *Note: This project includes the Maven Wrapper (`mvnw`), so it is not necessary to have Maven installed separately.*
 
@@ -20,7 +20,9 @@ Cloning the Repository
 
 First, clone the repository to your local machine using the Git command:
 
-console git clone <https://github.com/your-username/golden-raspberry-awards.git> cd golden-raspberry-awards
+```bash
+git clone <https://github.com/IsraelZG/goldenraspberry.git> cd golden-raspberry-awards
+``` 
 
 Setting Up the Project
 ----------------------
@@ -34,13 +36,17 @@ To run the application locally, follow these steps:
 
 1.  **Compile the Project**: Navigate to the project directory and execute the following command to compile the project and download the dependencies:
 
-    console ./mvnw clean install
+    ```bash
+    ./mvnw clean install
+    ``` 
 
 2.  **Run the Application**: After a successful compilation, start the application with the following command:
 
-    console ./mvnw spring-boot:run
+    ```bash
+    ./mvnw spring-boot:run
+    ```
 
-    The application will be available at `http://localhost:8080`.
+    The application will be available at `http://localhost:8082`.
 
 Running the Tests
 -----------------
@@ -49,9 +55,12 @@ To ensure everything is working as expected, it's important to run the integrati
 
 1.  **Execute Tests**: Use the Maven Wrapper to run all tests:
 
-    console ./mvnw test
+    ```bash    
+    ./mvnw test
+    ```
 
     This will execute all unit and integration tests defined in the project.
+
 
 2.  **Check Results**: After execution, check the results in the console. All tests should pass without errors.
 
@@ -60,7 +69,7 @@ Accessing the H2 Console
 
 While the application is running, you can access the H2 database web console to view and interact with the data:
 
--   Go to `http://localhost:8080/h2-console`
+-   Go to `http://localhost:8082/h2-console`
 -   Use the following credentials:
     -   **JDBC URL**: `jdbc:h2:mem:testdb`
     -   **User Name**: `sa`

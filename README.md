@@ -8,7 +8,7 @@ Este projeto é uma aplicação Java Spring Boot que gerencia informações sobr
 
 Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em seu ambiente de desenvolvimento:
 
-- [Java Development Kit (JDK) 22+](https://www.oracle.com/java/technologies/javase-jdk22-downloads.html)
+- [Java Development Kit (JDK) 22+](https://www.oracle.com/br/java/technologies/downloads/#java22)
 - [Git](https://git-scm.com/)
 
 *Nota: Este projeto inclui o Maven Wrapper (`mvnw`), portanto, não é necessário ter o Maven instalado separadamente.*
@@ -18,8 +18,8 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em s
 Primeiro, clone o repositório para sua máquina local usando o comando Git:
 
 ```bash
-git clone https://github.com/seu-usuario/golden-raspberry-awards.git
-cd golden-raspberry-awards
+git clone https://github.com/IsraelZG/goldenraspberry.git
+cd goldenraspberry
 ```
 
 ## Configurando o Projeto
