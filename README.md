@@ -1,5 +1,7 @@
 # Golden Raspberry Awards Project
 
+(Don't speak portuguese? [Click here](https://github.com/IsraelZG/goldenraspberry/blob/main/README-en.md) to view this page in English.)
+
 Este projeto é uma aplicação Java Spring Boot que gerencia informações sobre filmes e produtores, incluindo aqueles que receberam o infame prêmio Golden Raspberry. Este guia irá ajudá-lo a configurar e executar o projeto, assim como rodar os testes de integração.
 
 ## Pré-requisitos
