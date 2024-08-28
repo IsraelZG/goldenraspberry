@@ -1,23 +1,26 @@
 package com.igianesini.goldenraspberry.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.igianesini.goldenraspberry.domain.Movie;
 import com.igianesini.goldenraspberry.domain.Producer;
 import com.igianesini.goldenraspberry.domain.Studio;
+import com.igianesini.goldenraspberry.dto.AwardIntervalDTO;
+import com.igianesini.goldenraspberry.dto.AwardIntervalResponseDTO;
 import com.igianesini.goldenraspberry.repositories.MovieRepository;
 import com.igianesini.goldenraspberry.repositories.ProducerRepository;
 import com.igianesini.goldenraspberry.repositories.StudioRepository;
+import com.igianesini.goldenraspberry.services.MovieService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.List;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,12 +41,21 @@ class ProducerControllerIntegrationTest {
     @Autowired
     private StudioRepository studioRepository;
 
+    @Autowired
+    private MovieService movieService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @BeforeEach
     void setUp() {
         movieRepository.deleteAll();
         producerRepository.deleteAll();
         studioRepository.deleteAll();
+    }
 
+    @Test
+    void testGetAwardIntervals() throws Exception {
         Producer producer1 = new Producer("Producer One");
         Producer producer2 = new Producer("Producer Two");
         Producer producer3 = new Producer("Producer Three");
@@ -68,10 +80,7 @@ class ProducerControllerIntegrationTest {
 
         Set<Movie> movies = Set.of(movie1, movie2, movie3, movie4, movie5, movie6, movie7, movie8, movie9, movie10);
         movieRepository.saveAll(movies);
-    }
 
-    @Test
-    void testGetAwardIntervals() throws Exception {
         mockMvc.perform(get("/api/producers/award-intervals"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("application/json"))
@@ -103,5 +112,30 @@ class ProducerControllerIntegrationTest {
                         "'followingWin':2021" +
                         "}]" +
                         "}"));
+    }
+
+    @Test
+    void testAwardIntervalsWithStandardCSVFile() throws Exception {
+        movieService.loadMovieData();
+
+        MvcResult result = mockMvc.perform(get("/api/producers/award-intervals"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        AwardIntervalResponseDTO response = objectMapper.readValue(result.getResponse().getContentAsString(), AwardIntervalResponseDTO.class);
+
+        assertEquals(1, response.getMin().size());
+        AwardIntervalDTO min =  response.getMin().getFirst();
+        assertEquals("Joel Silver", min.getProducer());
+        assertEquals(1, min.getInterval());
+        assertEquals(1990, min.getPreviousWin());
+        assertEquals(1991, min.getFollowingWin());
+
+        assertEquals(1, response.getMax().size());
+        AwardIntervalDTO max = response.getMax().getFirst();
+        assertEquals("Matthew Vaughn", max.getProducer());
+        assertEquals(13, max.getInterval());
+        assertEquals(2002, max.getPreviousWin());
+        assertEquals(2015, max.getFollowingWin());
     }
 }

@@ -3,8 +3,9 @@ Golden Raspberry Awards Project
 
 (Não fala inglês? [Clique aqui](https://github.com/IsraelZG/goldenraspberry/blob/main/README.md) para ver essa página em português.)
 
-This project is a Java Spring Boot application that manages information about movies and producers, including those that have received the infamous Golden Raspberry Award. This guide will help you set up and run the project, as well as execute integration tests.
-
+This project is a Java Spring Boot application that manages information about movies and producers, including those who have received the infamous Golden Raspberry Award. 
+There is only one endpoint available, which returns the producers who have received two consecutive awards, both in the longest and shortest time intervals. 
+This guide will help you set up and run the project, as well as execute the integration tests.
 Prerequisites
 -------------
 
@@ -47,6 +48,10 @@ To run the application locally, follow these steps:
     ```
 
     The application will be available at `http://localhost:8082`.
+
+3. **Making the Request**:
+    - **In the browser**: Type `http://localhost:8082/api/producers/award-intervals` in the address bar and press 'Enter'.
+    - **In Postman (or a similar tool)**: Make a GET request to the URL `http://localhost:8082/api/producers/award-intervals`.
 
 Running the Tests
 -----------------

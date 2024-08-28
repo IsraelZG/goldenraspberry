@@ -2,7 +2,9 @@
 
 (Don't speak portuguese? [Click here](https://github.com/IsraelZG/goldenraspberry/blob/main/README-en.md) to view this page in English.)
 
-Este projeto é uma aplicação Java Spring Boot que gerencia informações sobre filmes e produtores, incluindo aqueles que receberam o infame prêmio Golden Raspberry. Este guia irá ajudá-lo a configurar e executar o projeto, assim como rodar os testes de integração.
+Este projeto é uma aplicação Java Spring Boot que gerencia informações sobre filmes e produtores, incluindo aqueles que receberam o infame prêmio Golden Raspberry.
+Existe apenas um endpoint disponível, que retorna os produtores que receberam dois prêmios consecutivos, tanto no maior quanto no menor intervalo de tempo.
+Este guia irá ajudá-lo a configurar e executar o projeto, assim como rodar os testes de integração.
 
 ## Pré-requisitos
 
@@ -42,6 +44,11 @@ Para executar a aplicação localmente, siga os passos abaixo:
    ./mvnw spring-boot:run
    ```
 A aplicação estará disponível em http://localhost:8082.
+
+3. **Realizando a Requisição**:
+    - **No navegador**: Digite `http://localhost:8082/api/producers/award-intervals` na barra de endereços e pressione 'Enter'.
+    - **No Postman (ou ferramenta similar)**: Faça uma requisição do tipo GET para a URL `http://localhost:8082/api/producers/award-intervals`.
+   
 
 ## Rodando os Testes
 
