@@ -18,9 +18,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -81,37 +83,43 @@ class ProducerControllerIntegrationTest {
         Set<Movie> movies = Set.of(movie1, movie2, movie3, movie4, movie5, movie6, movie7, movie8, movie9, movie10);
         movieRepository.saveAll(movies);
 
-        mockMvc.perform(get("/api/producers/award-intervals"))
+        MvcResult result = mockMvc.perform(get("/api/producers/award-intervals"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("application/json"))
-                .andExpect(content().json("{" +
-                        "'min':[" +
-                        "{" +
-                        "'producer':'Producer One'," +
-                        "'interval':1," +
-                        "'previousWin':1995," +
-                        "'followingWin':1996" +
-                        "}," +
-                        "{" +
-                        "'producer':'Producer Four'," +
-                        "'interval':1," +
-                        "'previousWin':2020," +
-                        "'followingWin':2021" +
-                        "}]," +
-                        "'max':[" +
-                        "{" +
-                        "'producer':'Producer Two'," +
-                        "'interval':25," +
-                        "'previousWin':1995," +
-                        "'followingWin':2020" +
-                        "}," +
-                        "{" +
-                        "'producer':'Producer Three'," +
-                        "'interval':25," +
-                        "'previousWin':1996," +
-                        "'followingWin':2021" +
-                        "}]" +
-                        "}"));
+                .andReturn();
+
+        AwardIntervalResponseDTO response = objectMapper.readValue(result.getResponse().getContentAsString(), AwardIntervalResponseDTO.class);
+
+        assertEquals(2, response.getMin().size());
+        assertEquals(2, response.getMax().size());
+
+        List<AwardIntervalDTO> minList = response.getMin();
+        assertTrue(minList.stream().anyMatch(dto ->
+                "Producer One".equals(dto.getProducer()) &&
+                        dto.getInterval() == 1 &&
+                        dto.getPreviousWin() == 1995 &&
+                        dto.getFollowingWin() == 1996
+        ));
+        assertTrue(minList.stream().anyMatch(dto ->
+                "Producer Four".equals(dto.getProducer()) &&
+                        dto.getInterval() == 1 &&
+                        dto.getPreviousWin() == 2020 &&
+                        dto.getFollowingWin() == 2021
+        ));
+
+        List<AwardIntervalDTO> maxList = response.getMax();
+        assertTrue(maxList.stream().anyMatch(dto ->
+                "Producer Two".equals(dto.getProducer()) &&
+                        dto.getInterval() == 25 &&
+                        dto.getPreviousWin() == 1995 &&
+                        dto.getFollowingWin() == 2020
+        ));
+        assertTrue(maxList.stream().anyMatch(dto ->
+                "Producer Three".equals(dto.getProducer()) &&
+                        dto.getInterval() == 25 &&
+                        dto.getPreviousWin() == 1996 &&
+                        dto.getFollowingWin() == 2021
+        ));
     }
 
     @Test
